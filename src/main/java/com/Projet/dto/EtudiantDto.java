@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class EtudiantDto {
+	private long id;
 	private String Nom;
 	private String Prenom;
 	private String email;

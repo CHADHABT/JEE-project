@@ -24,7 +24,7 @@ import com.Projet.mapper.EnseignantMapper;
 import com.Projet.service.CadreAdminService;
 import com.Projet.service.EnseignantService;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/cadre_admin")
 public class CadreAdminController {
@@ -33,22 +33,31 @@ public class CadreAdminController {
 	@Autowired
 	private CadreAdminMapper cadreAdminMapper;
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PostMapping("")
 	public ResponseEntity<?> CreateCadreAdmin(@RequestBody CadreAdminDto cadreAdminDto){
 		CadreAdmin cadreAdmin = cadreAdminMapper.unMap(cadreAdminDto);
-		return ResponseEntity.ok(cadreAdminService.CreateCadreAdmin(cadreAdmin));
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+		return ResponseEntity.ok().headers(headers)
+				.body(cadreAdminService.CreateCadreAdmin(cadreAdmin));
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping("/{id}")
     public ResponseEntity<?> GetCadreAdminById(@PathVariable Long id) {
 		CadreAdmin cadreAdmin = cadreAdminService.GetCadreAdminById(id);
 		CadreAdminDto dto = cadreAdminMapper.map(cadreAdmin);
-        return ResponseEntity.ok(dto);
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+        return ResponseEntity.ok().headers(headers)
+                .body(dto);
     }
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping()
 	public ResponseEntity<?> GetAll() {
 		
@@ -58,23 +67,31 @@ public class CadreAdminController {
 		
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Range", "etudiant 0-20/20");
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
 
 		return ResponseEntity.ok().headers(headers)
                                   .body(dtos);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> UpdateCadreAdmin(@PathVariable long id, @RequestBody CadreAdminDto cadreAdminDto){
 		CadreAdmin cadreAdmin = cadreAdminMapper.unMap(cadreAdminDto);
-	    return ResponseEntity.ok(cadreAdminService.UpdateCadreAdmin(id, cadreAdmin));
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+	    return ResponseEntity.ok().headers(headers)
+	    		.body(cadreAdminService.UpdateCadreAdmin(id, cadreAdmin));
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
     public ResponseEntity<?> DetelteCadreAdminById(@PathVariable long id) {
 		cadreAdminService.DetelteCadreAdminById(id);
-        return ResponseEntity.ok().build();
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok().headers(headers).build();
     }
 
 }

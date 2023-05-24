@@ -25,7 +25,7 @@ import com.Projet.service.EtudiantService;
 
 
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/etudiant")
 public class EtudiantController {
@@ -34,22 +34,32 @@ public class EtudiantController {
 	@Autowired
 	private EtudiantMapper etudiantMapper;
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PostMapping("")
 	public ResponseEntity<?> CreateEtudiant(@RequestBody EtudiantDto etudiantDto){
 		Etudiant etudiant = etudiantMapper.unMap(etudiantDto);
-		return ResponseEntity.ok(etudiantService.CreateEtudiant(etudiant));
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+
+
+		return ResponseEntity.ok().headers(headers)
+								  .body(etudiantService.CreateEtudiant(etudiant));
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping("/{id}")
     public ResponseEntity<?> GetEtudiantById(@PathVariable Long id) {
 		Etudiant etudiant = etudiantService.GetEtudiantById(id);
 		EtudiantDto dto = etudiantMapper.map(etudiant);
-        return ResponseEntity.ok(dto);
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+        return ResponseEntity.ok().headers(headers)
+                .body(dto);
     }
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping()
 	public ResponseEntity<?> GetAll() {
 		
@@ -59,41 +69,94 @@ public class EtudiantController {
 		
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Range", "etudiant 0-20/20");
+        
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
 
 		return ResponseEntity.ok().headers(headers)
                                   .body(dtos);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> UpdateEtudiant(@PathVariable long id, @RequestBody EtudiantDto etudiantDto){
 		Etudiant etudiant = etudiantMapper.unMap(etudiantDto);
-	    return ResponseEntity.ok(etudiantService.UpdateEtudiant(id, etudiant));
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+	    return ResponseEntity.ok().headers(headers)
+	    		.body(etudiantService.UpdateEtudiant(id, etudiant));
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
     public ResponseEntity<?> DetelteEtudiantById(@PathVariable long id) {
 		etudiantService.DetelteEtudiantById(id);
-        return ResponseEntity.ok().build();
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok().headers(headers).build();
     }
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PostMapping("/female_percentage")
 	public ResponseEntity<?> calculateFemalePercentage(){
 		StatResDto statResDto = new StatResDto();
 		statResDto.setResult(etudiantService.calculateFemalePercentage());
+		
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
 
-		return ResponseEntity.ok(statResDto);
+		return ResponseEntity.ok().headers(headers)
+									.body(statResDto);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PostMapping("/male_percentage")
 	public ResponseEntity<?> calculateMalePercentage(){
 		StatResDto statResDto = new StatResDto();
 		statResDto.setResult(etudiantService.calculateMalePercentage());
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
 
-		return ResponseEntity.ok(statResDto);
+		return ResponseEntity.ok().headers(headers)
+									.body(statResDto);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/ing_percentage")
+	public ResponseEntity<?> calculateIngPercentage(){
+		StatResDto statResDto = new StatResDto();
+		statResDto.setResult(etudiantService.calculateIngPercentage());
+
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+
+		return ResponseEntity.ok().headers(headers)
+									.body(statResDto);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/licence_percentage")
+	public ResponseEntity<?> calculateLicencePercentage(){
+		StatResDto statResDto = new StatResDto();
+		statResDto.setResult(etudiantService.calculateLicencePercentage());
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+
+		return ResponseEntity.ok().headers(headers)
+									.body(statResDto);
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/mastere_percentage")
+	public ResponseEntity<?> calculateMasterePercentage(){
+		StatResDto statResDto = new StatResDto();
+		statResDto.setResult(etudiantService.calculateMasterePercentage());
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+
+		return ResponseEntity.ok().headers(headers)
+									.body(statResDto);
 	}
 
 }

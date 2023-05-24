@@ -24,7 +24,7 @@ import com.Projet.mapper.EtudiantMapper;
 import com.Projet.service.EnseignantService;
 import com.Projet.service.EtudiantService;
 
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/enseignant")
 public class EnseignantController {
@@ -33,22 +33,30 @@ public class EnseignantController {
 	@Autowired
 	private EnseignantMapper enseignantMapper;
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PostMapping("")
 	public ResponseEntity<?> CreateEnseignant(@RequestBody EnseignantDto enseignantDto){
 		Enseignant enseignant = enseignantMapper.unMap(enseignantDto);
-		return ResponseEntity.ok(enseignantService.CreateEnseignant(enseignant));
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+		return ResponseEntity.ok().headers(headers)
+				.body(enseignantService.CreateEnseignant(enseignant));
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping("/{id}")
     public ResponseEntity<?> GetEnseignantById(@PathVariable Long id) {
 		Enseignant enseignant = enseignantService.GetEnseignantById(id);
 		EnseignantDto dto = enseignantMapper.map(enseignant);
-        return ResponseEntity.ok(dto);
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+        return ResponseEntity.ok().headers(headers)
+                .body(dto);
     }
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@GetMapping()
 	public ResponseEntity<?> GetAll() {
 		
@@ -59,22 +67,31 @@ public class EnseignantController {
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Range", "etudiant 0-20/20");
 
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+
 		return ResponseEntity.ok().headers(headers)
                                   .body(dtos);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> UpdateEnseignant(@PathVariable long id, @RequestBody EnseignantDto enseignantDto){
 		Enseignant enseignant = enseignantMapper.unMap(enseignantDto);
-	    return ResponseEntity.ok(enseignantService.UpdateEnseignant(id, enseignant));
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        
+	    return ResponseEntity.ok().headers(headers)
+	    		.body(enseignantService.UpdateEnseignant(id, enseignant));
+	    
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200/")
+	@CrossOrigin(origins = "*")
 	@DeleteMapping("/{id}")
     public ResponseEntity<?> DetelteEnseignantById(@PathVariable long id) {
 		enseignantService.DetelteEnseignantById(id);
-        return ResponseEntity.ok().build();
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Expose-Headers", "Content-Range");
+        return ResponseEntity.ok().headers(headers).build();
     }
 
 }

@@ -79,5 +79,32 @@ public class EtudiantService extends BaseService<Etudiant, Long>{
         return femalePercentage;
     }
     
+    public double calculateIngPercentage() {
+        if (etudiantRepository.count() == 0) {
+            return 0.0; // To handle division by zero error
+        }
+        
+        double SectionPercentage = (double) etudiantRepository.countByNiveau("ing") / (etudiantRepository.count()) * 100;
+        return SectionPercentage;
+    }
+    
+    public double calculateLicencePercentage() {
+        if (etudiantRepository.count() == 0) {
+            return 0.0; // To handle division by zero error
+        }
+        
+        double SectionPercentage = (double) etudiantRepository.countByNiveau("licence") / (etudiantRepository.count()) * 100;
+        return SectionPercentage;
+    }
+    
+    public double calculateMasterePercentage() {
+        if (etudiantRepository.count() == 0) {
+            return 0.0; // To handle division by zero error
+        }
+        
+        double SectionPercentage = (double) etudiantRepository.countByNiveau("mastere") / (etudiantRepository.count()) * 100;
+        return SectionPercentage;
+    }
+    
 
 }
