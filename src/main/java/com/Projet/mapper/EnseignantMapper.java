@@ -1,0 +1,14 @@
+package com.Projet.mapper;
+
+import org.mapstruct.Mapper;
+
+import com.Projet.base.mapper.BaseMapper;
+import com.Projet.dto.EnseignantDto;
+import com.Projet.dto.EtudiantDto;
+import com.Projet.entity.Enseignant;
+import com.Projet.entity.Etudiant;
+
+@Mapper
+public interface EnseignantMapper extends BaseMapper <Enseignant, EnseignantDto>{
+
+}
